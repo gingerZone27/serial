@@ -6,6 +6,8 @@ This is a cross-platform library for interfacing with rs-232 serial like ports w
 
 This library is in use in several robotics related projects and can be built and installed to the OS like most unix libraries with CMake and then sudo cmake --install.
 
+This fork is not a Catkin package and does not require a Catkin workspace. It is organized for pure CMake compatibility, including standard CMake configure, build, install, CTest, and `find_package(serial CONFIG REQUIRED)` workflows.
+
 Serial is a class that provides the basic interface common to serial libraries (open, close, read, write, etc..) and requires no extra dependencies. It also provides tight control over timeouts and control over handshaking lines. 
 
 ### Documentation
@@ -18,6 +20,8 @@ API Documentation: http://wjwwood.github.io/serial/doc/1.1.0/index.html
 
 Required:
 * [cmake](http://www.cmake.org) 3.15 or newer - buildsystem
+
+Catkin is not required or supported by this build.
 
 Optional (for tests):
 * [GoogleTest](https://github.com/google/googletest) - C++ test framework
