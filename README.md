@@ -4,7 +4,7 @@
 
 This is a cross-platform library for interfacing with rs-232 serial like ports written in C++. It provides a modern C++ interface with a workflow designed to look and feel like PySerial, but with the speed and control provided by C++. 
 
-This library is in use in several robotics related projects and can be built and installed to the OS like most unix libraries with make and then sudo make install, but because it is a catkin project it can also be built along side other catkin projects in a catkin workspace.
+This library is in use in several robotics related projects and can be built and installed to the OS like most unix libraries with CMake and then sudo cmake --install.
 
 Serial is a class that provides the basic interface common to serial libraries (open, close, read, write, etc..) and requires no extra dependencies. It also provides tight control over timeouts and control over handshaking lines. 
 
@@ -17,11 +17,10 @@ API Documentation: http://wjwwood.github.io/serial/doc/1.1.0/index.html
 ### Dependencies
 
 Required:
-* [catkin](http://www.ros.org/wiki/catkin) - cmake and Python based buildsystem
-* [cmake](http://www.cmake.org) - buildsystem
-* [Python](http://www.python.org) - scripting language
-  * [empy](http://www.alcyone.com/pyos/empy/) - Python templating library
-  * [catkin_pkg](http://pypi.python.org/pypi/catkin_pkg/) - Runtime Python library for catkin
+* [cmake](http://www.cmake.org) 3.15 or newer - buildsystem
+
+Optional (for tests):
+* [GoogleTest](https://github.com/google/googletest) - C++ test framework
 
 Optional (for documentation):
 * [Doxygen](http://www.doxygen.org/) - Documentation generation tool
@@ -35,11 +34,14 @@ Get the code:
 
 Build:
 
-    make
+    cmake -S . -B build
+    cmake --build build
 
 Build and run the tests:
 
-    make test
+    cmake -S . -B build
+    cmake --build build
+    ctest --test-dir build --output-on-failure
 
 Build the documentation:
 
@@ -47,7 +49,12 @@ Build the documentation:
 
 Install:
 
-    make install
+    cmake --install build
+
+Downstream CMake projects can consume an installed copy with:
+
+    find_package(serial CONFIG REQUIRED)
+    target_link_libraries(my_target PRIVATE serial::serial)
 
 ### License
 
