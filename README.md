@@ -6,7 +6,7 @@ This is a cross-platform library for interfacing with rs-232 serial like ports w
 
 This library is in use in several robotics related projects and can be built and installed to the OS like most unix libraries with CMake and then sudo cmake --install.
 
-This fork is not a Catkin package and does not require a Catkin workspace. It is organized for pure CMake compatibility, including standard CMake configure, build, install, CTest, and `find_package(serial CONFIG REQUIRED)` workflows.
+This fork is not a Catkin package and does not require a Catkin workspace. It is organized for pure CMake compatibility, including standard CMake configure, build, install, CTest, and `find_package(serial REQUIRED)` workflows.
 
 Serial is a class that provides the basic interface common to serial libraries (open, close, read, write, etc..) and requires no extra dependencies. It also provides tight control over timeouts and control over handshaking lines. 
 
@@ -57,8 +57,11 @@ Install:
 
 Downstream CMake projects can consume an installed copy with:
 
-    find_package(serial CONFIG REQUIRED)
+    find_package(serial REQUIRED)
     target_link_libraries(my_target PRIVATE serial::serial)
+
+CMake searches its standard installation prefixes (including Ubuntu's default
+`/usr/local`) automatically; no hard-coded serial path is needed.
 
 ### License
 

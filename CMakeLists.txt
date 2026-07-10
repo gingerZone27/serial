@@ -101,3 +101,29 @@ install(FILES
   ${CMAKE_CURRENT_BINARY_DIR}/serialConfigVersion.cmake
   DESTINATION ${CMAKE_INSTALL_LIBDIR}/cmake/serial
 )
+
+if(BUILD_TESTING)
+  set(SERIAL_PACKAGE_TEST_PREFIX "${CMAKE_CURRENT_BINARY_DIR}/package-test-prefix")
+  set(SERIAL_PACKAGE_TEST_BUILD_DIR "${CMAKE_CURRENT_BINARY_DIR}/package-test-build")
+
+  add_test(
+    NAME serial-install-package
+    COMMAND ${CMAKE_COMMAND} --install ${CMAKE_BINARY_DIR}
+      --prefix ${SERIAL_PACKAGE_TEST_PREFIX}
+  )
+
+  add_test(
+    NAME serial-find-package
+    COMMAND ${CMAKE_COMMAND}
+      -S ${CMAKE_CURRENT_SOURCE_DIR}/tests/package
+      -B ${SERIAL_PACKAGE_TEST_BUILD_DIR}
+      -DCMAKE_PREFIX_PATH=${SERIAL_PACKAGE_TEST_PREFIX}
+  )
+  set_tests_properties(serial-find-package PROPERTIES DEPENDS serial-install-package)
+
+  add_test(
+    NAME serial-build-package-consumer
+    COMMAND ${CMAKE_COMMAND} --build ${SERIAL_PACKAGE_TEST_BUILD_DIR}
+  )
+  set_tests_properties(serial-build-package-consumer PROPERTIES DEPENDS serial-find-package)
+endif()
